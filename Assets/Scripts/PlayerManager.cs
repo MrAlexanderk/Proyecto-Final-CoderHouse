@@ -121,24 +121,19 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy")) { ThePlayerIsDead(other.transform); }
-    }
-
-    private void ThePlayerIsDead(Transform enemy)
-    {
-        blackScreen.enabled = true;
-        blackText.enabled = true;
-        transform.LookAt(new Vector3(enemy.transform.position.x, transform.position.y, enemy.transform.position.z));
-        isAlive = false;
+    //private void ThePlayerIsDead(Transform enemy)
+    //{
+    //    blackScreen.enabled = true;
+    //    blackText.enabled = true;
+    //    transform.LookAt(new Vector3(enemy.transform.position.x, transform.position.y, enemy.transform.position.z));
+    //    isAlive = false;
         
-        Debug.Log("El jugador ha muerto");
-        Debug.Log(blackScreen.isActiveAndEnabled);
-        playerAudio.PlayOneShot(jumpScare_Sound);
+    //    Debug.Log("El jugador ha muerto");
+    //    Debug.Log(blackScreen.isActiveAndEnabled);
+    //    playerAudio.PlayOneShot(jumpScare_Sound);
 
 
-    }
+    //}
 
 }
 

@@ -5,9 +5,7 @@ using UnityEngine;
 public abstract class ObjectInteraction : MonoBehaviour
 {
     [Header("Player Interaction Settings")]
-    [SerializeField] protected float distanceInteraction;
-
-
+    [SerializeField] protected float distanceInteraction = 1.5f;
 
 
     protected bool CheckPlayerInteractionDistance()
@@ -22,8 +20,6 @@ public abstract class ObjectInteraction : MonoBehaviour
             Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * distanceInteraction, Color.yellow);
             return false;
         }
-        
-
     }
 
 
