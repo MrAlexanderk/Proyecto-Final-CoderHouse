@@ -55,8 +55,9 @@ public class Gramophone : ObjectInteraction
     private void CrankCountDown()
     {
         if(crankCountDown <= 0) 
-        { 
+        {
             //El player muere.
+            GameManager.KillThePlayer();
             return; 
         }
         crankCountDown -= Time.deltaTime;
