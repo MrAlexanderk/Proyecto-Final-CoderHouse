@@ -144,8 +144,8 @@ MonoBehaviour:
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 2
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -176,16 +176,16 @@ MonoBehaviour:
     value: 0
   tint:
     overrideState: 0
-    value: 0
+    value: 100
   colorFilter:
     overrideState: 1
     value: {r: 0.99417317, g: 1, b: 0.9009434, a: 1}
   hueShift:
     overrideState: 0
-    value: 32
+    value: 180
   saturation:
     overrideState: 1
-    value: 74
+    value: -100
   brightness:
     overrideState: 0
     value: 0
@@ -227,10 +227,10 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: -0.13239181}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.32656664}
+    value: {x: 1, y: 1, z: 1, w: 0.17802045}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.16504867}
+    value: {x: 1, y: 1, z: 1, w: -0.25229356}
   masterCurve:
     overrideState: 0
     value:
@@ -1452,7 +1452,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 1.74
+    value: 4
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1475,10 +1475,10 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   radius:
-    overrideState: 0
-    value: 0.25
+    overrideState: 1
+    value: 0.36
   quality:
-    overrideState: 0
+    overrideState: 1
     value: 2
 --- !u!114 &7926848598492172105
 MonoBehaviour:
