@@ -17,3 +17,12 @@ MonoBehaviour:
   - {fileID: 8400000, guid: 8bbf99f46cf1993409021e550e7de156, type: 2}
   - {fileID: 8400000, guid: a02cdce709574aa418ac05049b037bdb, type: 2}
   - {fileID: 8400000, guid: 5e952da47c0f57a4aa42f9cc56facbc7, type: 2}
+  CompleteMannequinTexts:
+  - Run
+  - Hide
+  - Someone is coming
+  - I see you
+  - Where are you?
+  - Kill me
+  - Not found
+  - Dead

@@ -19,6 +19,10 @@ public class Gramophone : ObjectInteraction
 
     private AudioSource audioSource;
 
+    private Animator[] rotationMovementAnims;
+
+    private GameObject crankHandler;
+
 
     #region EDITOR SERIALIZED
 
@@ -32,7 +36,9 @@ public class Gramophone : ObjectInteraction
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        rotationMovementAnims = GetComponentsInChildren<Animator>();
         crankCountDown = maxHandCrank;
+        crankHandler = GetComponentInChildren<CapsuleCollider>().gameObject;
     }
 
 
@@ -64,9 +70,22 @@ public class Gramophone : ObjectInteraction
         if(crankCountDown < maxHandCrank * distortionPercentage)
         {
             audioSource.pitch = crankCountDown / (maxHandCrank * distortionPercentage);
+            foreach(var anim in rotationMovementAnims)
+            {
+                anim.speed = crankCountDown / (maxHandCrank * distortionPercentage);
+            }
+
+            crankHandler.transform.Rotate(Vector3.right * 100 * (crankCountDown / (maxHandCrank * distortionPercentage) * Time.deltaTime));
+            
         } else 
         { 
-            audioSource.pitch = 1; 
+            audioSource.pitch = 1;
+            foreach (var anim in rotationMovementAnims)
+            {
+                anim.speed = 1;
+            }
+            crankHandler.transform.Rotate(Vector3.right * 100 * Time.deltaTime);
+
         }
     }
 
@@ -79,6 +98,7 @@ public class Gramophone : ObjectInteraction
         }
         if(crankCountDown >= maxHandCrank) { return; }
         crankCountDown += chargingMultiplier * Time.deltaTime;
+        crankHandler.transform.Rotate(Vector3.left * 200 * Time.deltaTime);
         gramophoneImage.fillAmount = crankCountDown / maxHandCrank;
     }
 

@@ -9,4 +9,7 @@ public class CameraDisplayInformation : ScriptableObject
 
 
 
+    public string[] CompleteMannequinTexts;
+
+
 }
