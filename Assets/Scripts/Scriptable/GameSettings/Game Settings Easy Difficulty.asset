@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f6d9ced810b0446a2e119c0e589603, type: 3}
+  m_Name: Game Settings Easy Difficulty
+  m_EditorClassIdentifier: 
+  StalkerAttackMultiplier: 1
+  AttackTimeCountRange: {x: 10, y: 25}
+  GonzalezPrefab: {fileID: 3770969938772023723, guid: 38054e839a9e45542837a7c3d184118f, type: 3}
