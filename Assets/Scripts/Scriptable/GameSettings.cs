@@ -13,7 +13,7 @@ public class GameSettings : ScriptableObject
 
 
 
-    [SerializeField] public StalkerEnemy GonzalezPrefab;
+    [SerializeField] public GonzalezManager GonzalezPrefab;
 
 
 

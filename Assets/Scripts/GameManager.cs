@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform rightSpawnAreaCorner;
 
 
-    [SerializeField] private GameObject[] completePhasePoints;
+    [SerializeField] public GameObject[] completePhasePoints;
     [SerializeField] private GameObject parentReference;
 
 
@@ -72,10 +72,9 @@ public class GameManager : MonoBehaviour
         float randomZ = Random.Range(leftSpawnAreaCorner.transform.position.z, rightSpawnAreaCorner.transform.position.z);
         Vector3 spawnPosition = new Vector3(randomX, randomY, randomZ);
 
-        StalkerEnemy gonzalez = Instantiate<StalkerEnemy>(configuration.GonzalezPrefab);
+        GonzalezManager gonzalez = Instantiate<GonzalezManager>(configuration.GonzalezPrefab);
         gonzalez.transform.position = spawnPosition;
         gonzalez.transform.SetParent(parentReference.transform);
-        gonzalez.SetStalkerDestination(completePhasePoints[1]);
 
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public abstract class BasicAI : MonoBehaviour
 {
-    [SerializeField] protected InitialParameters initialParameters;
+    [SerializeField] protected GameSettings configuration;
 
     protected PlayerManager playerTarget;
     protected Animator animatorController;

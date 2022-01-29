@@ -27,13 +27,15 @@ public class StalkerEnemy : BasicAI
     private EnemyState currentEnemyState;
     private GameZoneManager parentID;
 
+    [SerializeField] private GameSettings configuration;
+
     private void Awake() { StartParameters(); }  //Se inicializan todos los parámetros comunes desde el BasicAI.
 
 
     void Start() //Se inicializan los parámetros particulares de cada tipo de enemigo.
     {
-        navMeshAgent.speed = 0;
-        navMeshAgent.SetDestination(target.position);
+        //navMeshAgent.speed = 0;
+        //navMeshAgent.SetDestination(target.position);
         currentEnemyState = EnemyState.MovingTowards;
 
         //GameManager.onGameReset += OnGameResetHandler;
@@ -44,7 +46,7 @@ public class StalkerEnemy : BasicAI
         switch (currentEnemyState)
         {
             case EnemyState.MovingTowards:
-                StalkerOnTheMove();
+                //StalkerOnTheMove();
                 break;
             case EnemyState.OnTheDoor:
                 break;
@@ -58,20 +60,14 @@ public class StalkerEnemy : BasicAI
                 break;
         }
 
-
-        //if (isOnLight)
-        //{
-        //    counter += Time.deltaTime;
-
-        //    if (counter > enemyDamageResistance && counter < 10000)
-        //    {
-        //        Destroy(this.gameObject);
-        //    }
-        //}
-        //else
-        //{
-        //    attackCounter += Time.deltaTime;
-        //}
+        if (navMeshAgent.hasPath)
+        {
+            Debug.Log("Moving");
+        }
+        else
+        {
+            Debug.Log("NotMoving");
+        }
     }
 
 
@@ -93,25 +89,12 @@ public class StalkerEnemy : BasicAI
             {
                 isMoving = !isMoving;
                 animatorController.SetBool("Walking", !animatorController.GetBool("Walking"));
-                if (isMoving) { navMeshAgent.speed = enemySpeed; } else { navMeshAgent.speed = 0; }
+                if (isMoving) { navMeshAgent.speed = enemySpeed; } //else { navMeshAgent.speed = 0; }
             }
 
 
         }
     }
-
-
-
-
-
-
-
-
-    //private void PlayerOnTheDoor()
-    //{
-    //    isArrived = true;
-    //    enemyAnimator.SetTrigger("getOnTheDoor");
-    //}
 
 
 

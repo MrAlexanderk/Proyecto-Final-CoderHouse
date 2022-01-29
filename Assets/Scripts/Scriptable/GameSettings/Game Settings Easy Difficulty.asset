@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StalkerAttackMultiplier: 1
   AttackTimeCountRange: {x: 10, y: 25}
-  GonzalezPrefab: {fileID: 3770969938772023723, guid: 38054e839a9e45542837a7c3d184118f, type: 3}
+  GonzalezPrefab: {fileID: 3305323609754227408, guid: 38054e839a9e45542837a7c3d184118f, type: 3}
