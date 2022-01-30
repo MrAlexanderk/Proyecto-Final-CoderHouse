@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,7 +28,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager TheGameManager;
 
-
+    public static event UnityAction OnGameOver;
+    public static event UnityAction OnGameReset;
 
     private void Awake()
     {
@@ -58,8 +60,6 @@ public class GameManager : MonoBehaviour
         if(timerCounter <= attackTimeCount && currentGameStage == AllGameStages.AlreadyMoving) { return; }
         
         timerCounter = 0;
-
-        
     }
 
 
@@ -79,8 +79,19 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void GameOver()
+    {
+        OnGameOver?.Invoke();
+        foreach(var light in FindObjectsOfType<Light>())
+        {
+            light.enabled = false;
+        }
+    }
 
-
+    public void GameReset()
+    {
+        OnGameReset?.Invoke();
+    }
 
 
     //private Animator crateAnimator;

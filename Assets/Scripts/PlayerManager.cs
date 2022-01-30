@@ -53,6 +53,8 @@ public class PlayerManager : MonoBehaviour
         playerTransform = GetComponent<Transform>();
         playerCharacterController = GetComponent<CharacterController>();
         playerAudio = GetComponent<AudioSource>();
+        GameManager.OnGameOver += OnGameOverHandler;
+        GameManager.OnGameReset += OnGameResetHandler;
     }
 
 
@@ -120,6 +122,17 @@ public class PlayerManager : MonoBehaviour
             fallingVerticalDirection.y += gravity * Time.deltaTime;
         }
     }
+
+    private void OnGameOverHandler()
+    {
+        isAlive = false;
+    }
+
+    private void OnGameResetHandler()
+    {
+        isAlive = true;
+    }
+
 
     //private void ThePlayerIsDead(Transform enemy)
     //{

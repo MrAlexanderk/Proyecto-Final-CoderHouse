@@ -62,6 +62,7 @@ public class Gramophone : ObjectInteraction
     {
         if(crankCountDown <= 0) 
         {
+            GameManager.TheGameManager.GameOver();
             //El player muere.
             //GameManager.KillThePlayer();
             return; 

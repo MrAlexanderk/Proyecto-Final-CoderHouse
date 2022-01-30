@@ -39,7 +39,12 @@ public class GonzalezManager : BasicAI
 
     private void SetDestinationPoints()
     {
-        if (destinationIndex == GameManager.TheGameManager.completePhasePoints.Length) { Debug.Log("The Game Is Over"); return; }
+        if (destinationIndex == GameManager.TheGameManager.completePhasePoints.Length) 
+        { 
+            Debug.Log("The Game Is Over");
+            GameManager.TheGameManager.GameOver();
+            return; 
+        }
         target = GameManager.TheGameManager.completePhasePoints[destinationIndex].transform;
         navMeshAgent.SetDestination(target.position);
         destinationIndex++;

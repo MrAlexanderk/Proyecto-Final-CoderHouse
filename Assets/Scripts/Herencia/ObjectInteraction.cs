@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ObjectInteraction : MonoBehaviour
 {
     [Header("Player Interaction Settings")]
     [SerializeField] protected float distanceInteraction = 1.5f;
-
+    [SerializeField] protected Image action;
 
     protected bool CheckPlayerInteractionDistance()
     {
@@ -20,6 +21,17 @@ public abstract class ObjectInteraction : MonoBehaviour
             Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * distanceInteraction, Color.yellow);
             return false;
         }
+    }
+
+
+    private void OnMouseEnter()
+    {
+        action.enabled = true;
+    }
+
+    private void OnMouseExit()
+    {
+        action.enabled = false;
     }
 
 
