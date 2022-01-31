@@ -39,9 +39,7 @@ public class MannequinHead : MonoBehaviour
         {
             
             ChangeChestText();
-            bloom.intensity.value += 1f;
-            aberration.intensity.value += 0.1f;
-            Debug.Log($"{bloom.intensity.value}, {aberration.intensity.value}, {volume.name}, {Camera.main.name}");
+
         }
        
     }
