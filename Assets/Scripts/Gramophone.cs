@@ -8,7 +8,7 @@ public class Gramophone : ObjectInteraction
     [SerializeField] private float maxHandCrank = 180f;
     [SerializeField] private float distortionPercentage = 0.4f;
     [SerializeField] private float chargingMultiplier = 10f;
-
+    public static float CountDownMultiplier = 1;
 
 
     [SerializeField] private bool isCountingDown = true;
@@ -22,6 +22,8 @@ public class Gramophone : ObjectInteraction
     private Animator[] rotationMovementAnims;
 
     private GameObject crankHandler;
+
+
 
 
     #region EDITOR SERIALIZED
@@ -67,7 +69,7 @@ public class Gramophone : ObjectInteraction
             //GameManager.KillThePlayer();
             return; 
         }
-        crankCountDown -= Time.deltaTime;
+        crankCountDown -= Time.deltaTime * CountDownMultiplier;
         if(crankCountDown < maxHandCrank * distortionPercentage)
         {
             audioSource.pitch = crankCountDown / (maxHandCrank * distortionPercentage);
