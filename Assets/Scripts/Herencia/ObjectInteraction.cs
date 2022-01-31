@@ -26,7 +26,18 @@ public abstract class ObjectInteraction : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        action.enabled = true;
+        //action.enabled = true;
+    }
+
+    private void OnMouseOver()
+    {
+        if (CheckPlayerInteractionDistance() && action.enabled == false)
+        {
+            action.enabled = true;
+        } else if(!CheckPlayerInteractionDistance() && action.enabled == true)
+        {
+            action.enabled = false;
+        }
     }
 
     private void OnMouseExit()
