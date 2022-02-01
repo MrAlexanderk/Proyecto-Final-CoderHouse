@@ -44,8 +44,11 @@ public class PlayerManager : MonoBehaviour
 
     public bool isActive = true;
 
+    [SerializeField] Canvas escMenu;
+    [SerializeField] private ControlsOptions controls;
 
-
+    [Range(-1, 1)] private float horizontalAxis;
+    [Range(-1, 1)] private float verticalAxis;
 
     private void Awake()
     {
@@ -66,20 +69,12 @@ public class PlayerManager : MonoBehaviour
     void FixedUpdate()
     {
         PlayerOnTheGround();
-
     }
 
     private void Update()
     {
-        if (isAlive && isActive) { CameraMovement(); }
-        if (isAlive && isActive) { PlayerMovement(); }
-
-        
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-
-            flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
-        }
+        if (isAlive && isActive) { CameraMovement(); PlayerMovement(); }
+        PlayerInputManager();
 
     }
 
@@ -95,11 +90,19 @@ public class PlayerManager : MonoBehaviour
 
     private void PlayerMovement()
     {
-        horizontalMove = Input.GetAxis("Horizontal");
-        verticalMove = Input.GetAxis("Vertical");
-        directionMovement = transform.right * horizontalMove + transform.forward * verticalMove;
+        //horizontalMove = Input.GetAxis("Horizontal");
+        //verticalMove = Input.GetAxis("Vertical");
+        //directionMovement = transform.right * horizontalMove + transform.forward * verticalMove;
 
-        if(directionMovement.magnitude > 0.1f)
+        if (Input.GetKey(controls.MoveForward) && verticalAxis < 1) { verticalAxis += 10 * Time.deltaTime; }
+        else if (Input.GetKey(controls.MoveBack) && verticalAxis > -1) { verticalAxis -= 10 * Time.deltaTime; }
+        else { verticalAxis = 0; }
+        if (Input.GetKey(controls.MoveLeft) && horizontalAxis > -1) {horizontalAxis -= 10 * Time.deltaTime; }
+        else if (Input.GetKey(controls.MoveRight) && horizontalAxis < 1) { horizontalAxis += 10 * Time.deltaTime; }
+        else { horizontalAxis = 0; }
+
+        directionMovement = (transform.right * horizontalAxis + transform.forward * verticalAxis).normalized;
+        if (directionMovement.magnitude > 0.01f)
         {
             playerCharacterController.Move((directionMovement + fallingVerticalDirection) * playerSpeed * Time.deltaTime);
             playerAnimator.SetBool("Walking", true);
@@ -109,6 +112,32 @@ public class PlayerManager : MonoBehaviour
             playerAnimator.SetBool("Walking", false);
         }
     }
+    private void PlayerInputManager()
+    {
+        if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled)
+        {
+            flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!escMenu.enabled)
+            {
+                escMenu.enabled = true;
+                isActive = false;
+                Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                escMenu.enabled = false;
+                isActive = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Time.timeScale = 1;
+            }
+        }
+    }
+
     private void PlayerOnTheGround()
     {
         if (Physics.Raycast(transform.position, Vector3.down, maxDistanceToGround, groundLayer))
