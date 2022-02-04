@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.Events;
 
 public class MainMenu : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class MainMenu : MonoBehaviour
     
     private GameObject currentKey;
 
+    
 
 
     private Color32 normal = new Color32(255, 255, 255, 255);
@@ -27,7 +29,8 @@ public class MainMenu : MonoBehaviour
 
         ResetAllKeys();
 
-        
+        GameManager.OnGameReset += ResetGame; 
+
         keyInformation[0].text = keys["MoveForward"].ToString();
         keyInformation[1].text = keys["MoveBack"].ToString();
         keyInformation[2].text = keys["MoveLeft"].ToString();
@@ -64,6 +67,10 @@ public class MainMenu : MonoBehaviour
     }
 
 
+    private void ResetGame()
+    {
+        SceneManager.LoadScene("InGame", LoadSceneMode.Single);
+    }
 
 
     private void OnGUI()

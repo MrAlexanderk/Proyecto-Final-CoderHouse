@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] float playerSpeed;
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject flashlight;
 
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private AudioSource gramophoneAudio;
 
     [Header("Audio Source Clips")]
     [SerializeField] private AudioClip jumpScare_Sound;
@@ -44,6 +46,8 @@ public class PlayerManager : MonoBehaviour
 
     public bool isActive = true;
 
+    private event UnityAction<bool> onGamePauseContinue;
+
     [SerializeField] Canvas escMenu;
     [SerializeField] private ControlsOptions controls;
 
@@ -60,6 +64,15 @@ public class PlayerManager : MonoBehaviour
         GameManager.OnGameReset += OnGameResetHandler;
     }
 
+    private void OnGamePauseContinue(bool isPaused)
+    {
+        escMenu.enabled = !isPaused;
+        isActive = isPaused;
+        Cursor.lockState = (CursorLockMode) isPaused.GetHashCode();
+        Time.timeScale = (float) isPaused.GetHashCode();
+        if (isPaused) gramophoneAudio.Play();
+        else gramophoneAudio.Pause();
+    }
 
     void Start()
     {
@@ -75,7 +88,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (isAlive && isActive) { CameraMovement(); PlayerMovement(); }
         PlayerInputManager();
-
     }
 
     void CameraMovement()
@@ -114,28 +126,9 @@ public class PlayerManager : MonoBehaviour
     }
     private void PlayerInputManager()
     {
-        if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled)
-        {
-            flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!escMenu.enabled)
-            {
-                escMenu.enabled = true;
-                isActive = false;
-                Cursor.lockState = CursorLockMode.None;
-                Time.timeScale = 0;
-            }
-            else
-            {
-                escMenu.enabled = false;
-                isActive = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Time.timeScale = 1;
-            }
-        }
+        if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled) flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
+        
+        if (Input.GetKeyDown(KeyCode.Escape)) OnGamePauseContinue(escMenu.enabled);
     }
 
     private void PlayerOnTheGround()
@@ -155,6 +148,9 @@ public class PlayerManager : MonoBehaviour
     private void OnGameOverHandler()
     {
         isAlive = false;
+
+
+        transform.LookAt(new Vector3(DeathManager.TheDeathManager.transform.position.x, this.transform.position.y, DeathManager.TheDeathManager.transform.position.z));
     }
 
     private void OnGameResetHandler()

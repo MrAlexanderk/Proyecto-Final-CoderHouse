@@ -9,6 +9,8 @@ public class GonzalezManager : BasicAI
     [SerializeField] private float attackTimeMoment = 10;
     [SerializeField] private Vector2 timeRange = new Vector2(10, 20);   //Valor entre los cuales puede ocurrir el evento de mover/no mover
     [SerializeField] private Vector2 waitTimeRange = new Vector2(10, 20); //Valor entre los cuales Gonzalez esperará antes de abrir la puerta y continuar.
+    [SerializeField] private GateManager[] completeGateCollection;
+    [SerializeField] private float maxWaitingTime = 5;
 
     private bool isCounting = false;
 
@@ -17,7 +19,7 @@ public class GonzalezManager : BasicAI
     private int destinationIndex = 1;
 
     private Transform target;
-
+    float escapeCounter = 0;
 
 
     private void Awake()
@@ -69,16 +71,47 @@ public class GonzalezManager : BasicAI
 
     private IEnumerator GonzalezOnTheSpot()
     {   //Este método regula lo que ocurre cuando Gonzalez se encuentra oculta detrás de una puerta.
-        Debug.Log("Stopped");
+        //Debug.Log("Stopped");
         isCounting = false;
+
+        if((destinationIndex == 3 && completeGateCollection[0].isOpen) || (destinationIndex == 5 && completeGateCollection[1].isOpen) || (destinationIndex == 7 && completeGateCollection[2].isOpen))
+        {
+            
+            escapeCounter += Time.deltaTime;
+
+            if(escapeCounter >= maxWaitingTime) 
+            {
+                destinationIndex = 0;
+                isCounting = false;
+                SetDestinationPoints();
+                animatorController.SetBool("Walking", true);
+                navMeshAgent.speed = enemySpeed;
+            }
+            isCounting = true;
+            Debug.Log("Close " + escapeCounter);
+            yield break;
+        }
+
+        if(destinationIndex == 0) 
+        {
+            isCounting = true;
+        }
+
+        escapeCounter = 0;
+
+
         SetDestinationPoints();
         SetTheMovement(false);
         int waitTimeIndex = (int) Random.Range(waitTimeRange.x, waitTimeRange.y);
-        Debug.Log(waitTimeIndex);
+        //Debug.Log(waitTimeIndex);
         yield return new WaitForSeconds(waitTimeIndex);
         isCounting = true;
-        Debug.Log("Continue");
+        //Debug.Log("Continue");
     }
+
+
+
+
 
     private void SetTheMovement(bool setAction)
     {

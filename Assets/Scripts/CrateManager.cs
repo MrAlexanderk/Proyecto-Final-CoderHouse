@@ -5,6 +5,8 @@ using UnityEngine;
 public class CrateManager : MonoBehaviour
 {
     [SerializeField] private float interactionTime = 1;
+    [SerializeField] private Vector2 activityTimeRange = new Vector2(15, 30);
+    [SerializeField] private GameSettings configuration;
 
     private Animator crateAnimator;
     private AudioSource crateAudioSource;
@@ -14,23 +16,30 @@ public class CrateManager : MonoBehaviour
     private GameObject crateDoor;
     private AudioSource audioSource;
 
+
+
+    //Contador del crate
+    private float activityCounter = 0;
+    private float activityProbability = 0.2f;
+    private bool isActivityActive = false;
+    private float activityTime = 0;
+    public static float DangerProbability = 0.1f;
+
     private void Awake()
     {
-
-
-
-
         crateAnimator = GetComponent<Animator>();
         crateAudioSource = GetComponent<AudioSource>();
-        //crateDoor = GetComponentInParent<BoxCollider>().gameObject.GetComponentInChildren<SphereCollider>().gameObject;
         crateDoor = GetComponentInChildren<SphereCollider>().gameObject;
         audioSource = GetComponent<AudioSource>();
+        activityTime = Random.Range(activityTimeRange.x, activityTimeRange.y);
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        GameController();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ShakeTheCrate(ShakeIntensity.Low);
@@ -43,6 +52,22 @@ public class CrateManager : MonoBehaviour
         {
             OpenAndCloseCrate(isOpen);
         } 
+        
+    }
+
+    private void GameController()
+    {
+        if(!isActivityActive) activityCounter += Time.deltaTime;
+        if(activityCounter >= activityTime && !isActivityActive)
+        {
+            isActivityActive = true;
+            activityCounter = 0;
+            GameActivityManager();
+        }
+    }
+
+    private void GameActivityManager()
+    {
         
     }
 
