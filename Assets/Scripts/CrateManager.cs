@@ -32,8 +32,13 @@ public class CrateManager : MonoBehaviour
         crateDoor = GetComponentInChildren<SphereCollider>().gameObject;
         audioSource = GetComponent<AudioSource>();
         activityTime = Random.Range(activityTimeRange.x, activityTimeRange.y);
+        GameManager.OnGameOver += StartOpenComplete;
     }
 
+    private void StartOpenComplete()
+    {
+        StartCoroutine(OpenComplete());
+    }
 
     // Update is called once per frame
     void Update()
@@ -102,15 +107,6 @@ public class CrateManager : MonoBehaviour
         crateAudioSource.Stop();
     }
 
-
-    public static void KillThePlayer()
-    {
-        foreach (var light in FindObjectsOfType<Light>())
-        {
-            light.enabled = false;
-        }
-    }
-
     private void OpenAndCloseCrate(bool action)
     {
         isOpen = !isOpen;
@@ -152,6 +148,22 @@ public class CrateManager : MonoBehaviour
         }
         isActive = true;
         yield return new WaitForSeconds(interactionTime / 100);
+    }
+
+    private IEnumerator OpenComplete()
+    {
+        float index = 0;
+        isActive = false;
+        while (index >= -90)
+        {
+            crateDoor.transform.localRotation = Quaternion.Euler(new Vector3(index, 0, 0));
+            index -= 0.5f;
+            yield return new WaitForSeconds(interactionTime / 150);
+        }
+        isActive = true;
+        yield return new WaitForSeconds(interactionTime / 150);
+
+
     }
 
 

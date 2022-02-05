@@ -8,6 +8,9 @@ public class MannequinHead : MonoBehaviour
 {
     [SerializeField] private CameraDisplayInformation initialParameters;
     [SerializeField] private int maxNoDamageTime = 5;
+
+
+
     private GameObject parentObject;
     private GameObject target;
     private Transform lookTarget;
@@ -58,10 +61,18 @@ public class MannequinHead : MonoBehaviour
             return;
         }
 
-        Gramophone.CountDownMultiplier += 2 * Time.deltaTime;
-        bloom.intensity.value += 5f * Time.deltaTime;
-        aberration.intensity.value += 1f * Time.deltaTime;
+        ActivityMeter.TheActivityMeter.ChangeActivityMeter(0.1f);
+        Gramophone.CountDownMultiplier += 1.2f * Time.deltaTime;
+        aberrationAndBloom();
     }
+
+    public void aberrationAndBloom()
+    {
+        if(bloom.intensity.value < 40) bloom.intensity.value += 2f * Time.deltaTime;
+        if(aberration.intensity.value < 1) aberration.intensity.value += Time.deltaTime;
+    }
+
+
     private void OnMouseExit()
     {
         Gramophone.CountDownMultiplier = 1;
@@ -75,6 +86,7 @@ public class MannequinHead : MonoBehaviour
     }
     private IEnumerator CoolDown()
     {
+
         while (bloom.intensity.value > 0)
         {
             bloom.intensity.value -= 10 * Time.deltaTime;

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] public GameObject[] completePhasePoints;
     [SerializeField] private GameObject parentReference;
-
+    [SerializeField] private Light lightSystem;
 
 
     private enum AllGameStages { Hiding, WaitingToMove, AlreadyMoving}
@@ -54,12 +54,11 @@ public class GameManager : MonoBehaviour
 
 
     private void TimerCounterDown()
-    {   //Esta función se ocupa exclusivamente de contar el tiempo entre ataques.
-        timerCounter += Time.deltaTime * configuration.StalkerAttackMultiplier;
+    {   
 
-        if(timerCounter <= attackTimeCount && currentGameStage == AllGameStages.AlreadyMoving) { return; }
-        
-        timerCounter = 0;
+
+
+
     }
 
 
@@ -86,6 +85,10 @@ public class GameManager : MonoBehaviour
         {
             light.enabled = false;
         }
+
+        lightSystem.GetComponent<LightManager>().enabled = true;
+
+
     }
 
     public void GameReset()

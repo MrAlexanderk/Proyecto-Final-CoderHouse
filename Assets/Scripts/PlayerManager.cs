@@ -21,7 +21,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private AudioSource gramophoneAudio;
 
     [Header("Audio Source Clips")]
-    [SerializeField] private AudioClip jumpScare_Sound;
+
+    [SerializeField] private AudioClip tenseMusic;
 
 
     CinemachineVirtualCamera mainCamera;
@@ -70,8 +71,15 @@ public class PlayerManager : MonoBehaviour
         isActive = isPaused;
         Cursor.lockState = (CursorLockMode) isPaused.GetHashCode();
         Time.timeScale = (float) isPaused.GetHashCode();
-        if (isPaused) gramophoneAudio.Play();
-        else gramophoneAudio.Pause();
+
+        foreach(AudioSource audio in FindObjectsOfType<AudioSource>())
+        {
+            if (isPaused) audio.Play();
+            else audio.Pause();
+        }
+
+        //if (isPaused) gramophoneAudio.Play();
+        //else gramophoneAudio.Pause();
     }
 
     void Start()
@@ -128,7 +136,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled) flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
         
-        if (Input.GetKeyDown(KeyCode.Escape)) OnGamePauseContinue(escMenu.enabled);
+        if (Input.GetKeyDown(KeyCode.Escape) && isAlive) OnGamePauseContinue(escMenu.enabled);
     }
 
     private void PlayerOnTheGround()
@@ -148,9 +156,8 @@ public class PlayerManager : MonoBehaviour
     private void OnGameOverHandler()
     {
         isAlive = false;
-
-
         transform.LookAt(new Vector3(DeathManager.TheDeathManager.transform.position.x, this.transform.position.y, DeathManager.TheDeathManager.transform.position.z));
+        playerAudio.PlayOneShot(tenseMusic);
     }
 
     private void OnGameResetHandler()

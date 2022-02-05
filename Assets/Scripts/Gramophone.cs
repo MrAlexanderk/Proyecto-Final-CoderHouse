@@ -64,14 +64,14 @@ public class Gramophone : ObjectInteraction
     {
         if(crankCountDown <= 0) 
         {
+            isCountingDown = false;
             GameManager.TheGameManager.GameOver();
-            //El player muere.
-            //GameManager.KillThePlayer();
             return; 
         }
         crankCountDown -= Time.deltaTime * CountDownMultiplier;
         if(crankCountDown < maxHandCrank * distortionPercentage)
         {
+            ActivityMeter.TheActivityMeter.ChangeActivityMeter(1);
             audioSource.pitch = crankCountDown / (maxHandCrank * distortionPercentage);
             foreach(var anim in rotationMovementAnims)
             {

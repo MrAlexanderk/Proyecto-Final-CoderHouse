@@ -21,8 +21,6 @@ public class ButtonInteraction : ObjectInteraction
     private void OnMouseDown()
     {
         PressButton();
-
-
     }
 
 

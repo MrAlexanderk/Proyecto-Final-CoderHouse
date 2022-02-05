@@ -7,14 +7,16 @@ public class ActivityMeter : MonoBehaviour
     public static ActivityMeter TheActivityMeter;
 
 
-    private int rotationAngle = -55;
+    private float rotationAngle = -55;
     [SerializeField] private int newIndex = 5;
 
+    private AudioSource audioSource;
 
 
     private void Awake()
     {
         TheActivityMeter = this;
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -30,12 +32,33 @@ public class ActivityMeter : MonoBehaviour
         {
             ChangeActivityMeter(newIndex);
         }
+
+        ActivityManager();   
     }
 
-    public void ChangeActivityMeter(int intensity)
+    private void ActivityManager()
+    {
+        audioSource.pitch = 0.5f + ((rotationAngle + 55) / 110);
+
+        if (rotationAngle > 45)
+        {
+            Debug.Log("Red Alert");
+        } else if(rotationAngle > 25)
+        {
+            Debug.Log("Yellow Alert");
+        } else if(rotationAngle <= 25)
+        {
+            Debug.Log("Normal");
+        }
+
+
+        
+    }
+
+    public void ChangeActivityMeter(float intensity)
     {
         if (rotationAngle >= 65) GameManager.TheGameManager.GameOver();
-        if (rotationAngle <= -55)
+        if (rotationAngle < -55)
         {
             transform.localRotation = Quaternion.Euler(0, -55, 0);
             return;
