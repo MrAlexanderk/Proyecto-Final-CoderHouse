@@ -5,6 +5,7 @@ using UnityEngine;
 public class SuitCase : ObjectInteraction
 {
     [SerializeField] float interactionTime = 1;
+    [SerializeField] MannequinHead frontMannequin;
     private bool isOpen = false;
     private bool isActive = true;
 
@@ -27,9 +28,11 @@ public class SuitCase : ObjectInteraction
         if (action)
         {
             Debug.Log("Close");
+
             //transform.localRotation = Quaternion.Euler(new Vector3(100, 0, 0));
             //transform.localRotation = Quaternion.Slerp(Quaternion.identity, Quaternion.Euler(new Vector3(100, 0, 0)), interactionTime);
             StartCoroutine(CloseSuitcase());
+            //frontMannequin.HeadVisionCheck();
         }
         else
         {

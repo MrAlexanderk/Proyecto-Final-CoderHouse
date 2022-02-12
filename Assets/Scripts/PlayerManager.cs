@@ -49,6 +49,8 @@ public class PlayerManager : MonoBehaviour
 
     private event UnityAction<bool> onGamePauseContinue;
 
+    public static PlayerManager ThePlayer;
+
     [SerializeField] Canvas escMenu;
     [SerializeField] private ControlsOptions controls;
 
@@ -61,6 +63,7 @@ public class PlayerManager : MonoBehaviour
         playerTransform = GetComponent<Transform>();
         playerCharacterController = GetComponent<CharacterController>();
         playerAudio = GetComponent<AudioSource>();
+        ThePlayer = this;
         GameManager.OnGameOver += OnGameOverHandler;
         GameManager.OnGameReset += OnGameResetHandler;
     }

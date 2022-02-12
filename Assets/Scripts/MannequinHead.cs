@@ -8,7 +8,7 @@ public class MannequinHead : MonoBehaviour
 {
     [SerializeField] private CameraDisplayInformation initialParameters;
     [SerializeField] private int maxNoDamageTime = 5;
-
+    [SerializeField] private LayerMask player;
 
 
     private GameObject parentObject;
@@ -20,12 +20,17 @@ public class MannequinHead : MonoBehaviour
     private ChromaticAberration aberration;
     private Bloom bloom;
 
+
+    private GameObject eyes;
+
     private float damageCounter = 0;
 
     void Start()
     {
         target = FindObjectOfType<PlayerManager>().gameObject;
         information = GetComponentInParent<BoxCollider>().gameObject.GetComponentInChildren<Text>();
+
+        eyes = GetComponentInChildren<MeshRenderer>().gameObject;
 
         volume = Camera.main.GetComponent<PostProcessVolume>();
         volume.profile.TryGetSettings(out bloom);
