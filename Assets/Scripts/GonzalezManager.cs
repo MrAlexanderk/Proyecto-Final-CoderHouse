@@ -95,6 +95,7 @@ public class GonzalezManager : BasicAI
         if(destinationIndex == 0) 
         {
             isCounting = true;
+            yield return new WaitForSeconds(20);
         }
 
         escapeCounter = 0;

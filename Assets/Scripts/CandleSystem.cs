@@ -46,34 +46,8 @@ public class CandleSystem : ObjectInteraction
 
         GetComponentInChildren<SphereCollider>().gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
         Destroy(thisLight.gameObject);
+        Destroy(this.GetComponent<MeshRenderer>());
     }
 
-
-
-
-
-
-
-
-    private void TurnOnTheCandle()
-    { //Solo ocurre una vez.
-        thisLight.gameObject.SetActive(true);
-        
-
-        switch (thisCandleColor)
-        {
-            case CandleColor.White:
-                break;
-            case CandleColor.Red:
-                break;
-            case CandleColor.Blue:
-                break;
-            case CandleColor.Yellow:
-                break;
-            default:
-                break;
-        }
-        //Destroy
-    }
 
 }

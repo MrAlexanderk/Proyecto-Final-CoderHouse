@@ -9,7 +9,8 @@ public class MannequinHead : MonoBehaviour
     [SerializeField] private CameraDisplayInformation initialParameters;
     [SerializeField] private int maxNoDamageTime = 5;
     [SerializeField] private LayerMask player;
-
+    [SerializeField] private float jumpIntensity = 2.5f;
+    [SerializeField] private float timeBetweenJumping = 3;
 
     private GameObject parentObject;
     private GameObject target;
@@ -20,13 +21,18 @@ public class MannequinHead : MonoBehaviour
     private ChromaticAberration aberration;
     private Bloom bloom;
 
+    private Rigidbody headRigidbody;
+
 
     private GameObject eyes;
 
+
+    private bool isOnTheGround = false;
     private float damageCounter = 0;
 
     void Start()
     {
+        headRigidbody = GetComponent<Rigidbody>();
         target = FindObjectOfType<PlayerManager>().gameObject;
         information = GetComponentInParent<BoxCollider>().gameObject.GetComponentInChildren<Text>();
 
@@ -69,6 +75,18 @@ public class MannequinHead : MonoBehaviour
         ActivityMeter.TheActivityMeter.ChangeActivityMeter(0.1f);
         Gramophone.CountDownMultiplier += 1.2f * Time.deltaTime;
         aberrationAndBloom();
+
+
+    }
+
+    private void OnMouseDown()
+    {
+        if (isOnTheGround)
+        {
+            Debug.Log("HeadDown");
+            GameManager.TheGameManager.TakeAHead();
+        }
+        
     }
 
     public void aberrationAndBloom()
@@ -101,6 +119,26 @@ public class MannequinHead : MonoBehaviour
         {
             aberration.intensity.value -= 10 * Time.deltaTime;
             yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+
+    public void OnHeadDown()
+    {
+        headRigidbody.isKinematic = false;
+        headRigidbody.AddForce(Vector3.up * jumpIntensity, ForceMode.Impulse);
+        isOnTheGround = true;
+        StartCoroutine(HeadJumping());
+    }
+
+
+    private IEnumerator HeadJumping()
+    {
+        while (GetComponent<MeshRenderer>().enabled)
+        {
+            headRigidbody.AddForce((Vector3.up * jumpIntensity) + (Vector3.forward * Random.Range(-jumpIntensity, jumpIntensity)), ForceMode.Impulse);
+
+            yield return new WaitForSeconds(timeBetweenJumping);
         }
     }
 

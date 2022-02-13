@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,13 +19,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Light lightSystem;
 
 
-    private enum AllGameStages { Hiding, WaitingToMove, AlreadyMoving}
 
-    private AllGameStages currentGameStage = AllGameStages.Hiding;
+    [SerializeField] private GameObject[] allTheCurrentHeads; 
+
     private float timerCounter;
     private float attackTimeCount;
 
-    private bool isOnTheScene = false;
+    private MannequinHead[] allTheExistingHeads;
+
+    private int headsFoundIndex = 0;
+
 
     public static GameManager TheGameManager;
 
@@ -34,38 +38,44 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         TheGameManager = this;
+        OnGameReset += OnGameResetHandler;
+        allTheExistingHeads = FindObjectsOfType<MannequinHead>();
+
         attackTimeCount = Random.Range(configuration.AttackTimeCountRange.x, configuration.AttackTimeCountRange.y);
+        foreach (var head in allTheCurrentHeads)
+        {
+            head.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
-
-
-
-
-
 
     private void Update()
     {
-        //TimerCounterDown();
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            StartAttackSystem();
+            allTheExistingHeads[headsFoundIndex].OnHeadDown();
         }
     }
 
 
 
-    private void TimerCounterDown()
-    {   
+    public void TakeAHead()
+    {
+        allTheExistingHeads[headsFoundIndex].GetComponent<MeshRenderer>().enabled = false;
+        allTheExistingHeads[headsFoundIndex].GetComponent<CapsuleCollider>().enabled = false;
+        
+        foreach (var heads in allTheExistingHeads[headsFoundIndex].GetComponentsInChildren<MeshRenderer>())
+        {
+            heads.enabled = false;
+        }
 
-
-
-
+        allTheCurrentHeads[headsFoundIndex].GetComponent<MeshRenderer>().enabled = true;
+        headsFoundIndex++;
+        CheckHeadsCounts(headsFoundIndex);
     }
 
 
-
     private void StartAttackSystem()
-    {   //Este método de encarga de instanciar al enemigo cuando se está realizando un ataque.
-        isOnTheScene = true;
+    {   
         float randomX = Random.Range(leftSpawnAreaCorner.transform.position.x, rightSpawnAreaCorner.transform.position.x);
         float randomY = this.transform.position.y;
         float randomZ = Random.Range(leftSpawnAreaCorner.transform.position.z, rightSpawnAreaCorner.transform.position.z);
@@ -88,15 +98,43 @@ public class GameManager : MonoBehaviour
 
         lightSystem.GetComponent<LightManager>().enabled = true;
 
-
+        StartCoroutine(DeathTimerMenu());
     }
+
+
+    private IEnumerator DeathTimerMenu()
+    {
+        yield return new WaitForSeconds(10);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+
 
     public void GameReset()
     {
         OnGameReset?.Invoke();
     }
 
+    private void CheckHeadsCounts(int headsCount)
+    {
 
+        if (headsCount >= 4) GameWinningStage();
+    }
+
+    public void GameWinningStage()
+    {
+        //El jugador ha ganado.
+        Debug.Log("GANADOR");
+    }
+
+
+    private void OnGameResetHandler()
+    {
+        foreach(var head in allTheCurrentHeads)
+        {
+            head.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
    
 
 }

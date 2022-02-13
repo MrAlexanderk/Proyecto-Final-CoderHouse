@@ -42,22 +42,27 @@ public class ActivityMeter : MonoBehaviour
 
         if (rotationAngle > 45)
         {
-            Debug.Log("Red Alert");
+            //Debug.Log("Red Alert");
         } else if(rotationAngle > 25)
         {
-            Debug.Log("Yellow Alert");
+            //Debug.Log("Yellow Alert");
         } else if(rotationAngle <= 25)
         {
-            Debug.Log("Normal");
+            //Debug.Log("Normal");
         }
 
-
+        Debug.Log(rotationAngle);
         
     }
 
     public void ChangeActivityMeter(float intensity)
     {
-        if (rotationAngle >= 65) GameManager.TheGameManager.GameOver();
+        if (rotationAngle >= 65)
+        {
+            Debug.Log("DEATH");
+            GameManager.TheGameManager.GameOver();
+        }
+        
         if (rotationAngle < -55)
         {
             transform.localRotation = Quaternion.Euler(0, -55, 0);

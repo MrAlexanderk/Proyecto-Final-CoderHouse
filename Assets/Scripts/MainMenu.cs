@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.Events;
-
 public class MainMenu : MonoBehaviour
 {
     public static Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
@@ -26,6 +25,8 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         sharedInstance = this;
+
+        if (!FindObjectOfType<PlayerManager>().enabled) Cursor.lockState = CursorLockMode.None;
 
         ResetAllKeys();
 

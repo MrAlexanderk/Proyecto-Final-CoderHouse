@@ -71,7 +71,7 @@ public class Gramophone : ObjectInteraction
         crankCountDown -= Time.deltaTime * CountDownMultiplier;
         if(crankCountDown < maxHandCrank * distortionPercentage)
         {
-            ActivityMeter.TheActivityMeter.ChangeActivityMeter(1);
+            ActivityMeter.TheActivityMeter.ChangeActivityMeter(Time.deltaTime);
             audioSource.pitch = crankCountDown / (maxHandCrank * distortionPercentage);
             foreach(var anim in rotationMovementAnims)
             {
