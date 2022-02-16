@@ -569,7 +569,7 @@ MonoBehaviour:
   m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 0.2
   m_FrequencyGain: 1
-  mNoiseOffsets: {x: 0, y: 0, z: 0}
+  mNoiseOffsets: {x: -639.39307, y: 844.2254, z: 460.3586}
 --- !u!1 &6822561677873480545
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,8 +755,11 @@ MonoBehaviour:
   blackText: {fileID: 218903489072599423}
   flashlight: {fileID: 6822561678126554869}
   spawnPoint: {fileID: 0}
-  jumpScare_Sound: {fileID: 8300000, guid: 63b2252511f82cd49bd7bc8a77e88135, type: 3}
+  gramophoneAudio: {fileID: 0}
+  tenseMusic: {fileID: 0}
   isActive: 1
+  escMenu: {fileID: 0}
+  controls: {fileID: 0}
 --- !u!143 &6822561678261359574
 CharacterController:
   m_ObjectHideFlags: 0
@@ -879,9 +882,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6822561678261359573}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
