@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,15 @@ public class GameManager : MonoBehaviour
 
 
 
-    [SerializeField] private GameObject[] allTheCurrentHeads; 
+    [SerializeField] private GameObject[] allTheCurrentHeads;
+
+    [SerializeField] private Image[] allHeadsCollected;
+
+
+
+
+
+
 
     private float timerCounter;
     private float attackTimeCount;
@@ -58,6 +67,13 @@ public class GameManager : MonoBehaviour
 
 
 
+    public void NewHeadOut()
+    {
+        allTheExistingHeads[headsFoundIndex].OnHeadDown();
+        //Una cabeza ha caído. Acércate a ella y pulsa {KeyCode.Mouse0} para asegurarla.
+    }
+
+
     public void TakeAHead()
     {
         allTheExistingHeads[headsFoundIndex].GetComponent<MeshRenderer>().enabled = false;
@@ -69,6 +85,8 @@ public class GameManager : MonoBehaviour
         }
 
         allTheCurrentHeads[headsFoundIndex].GetComponent<MeshRenderer>().enabled = true;
+        allHeadsCollected[headsFoundIndex].enabled = true;
+
         headsFoundIndex++;
         CheckHeadsCounts(headsFoundIndex);
     }

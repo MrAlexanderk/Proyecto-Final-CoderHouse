@@ -11,7 +11,7 @@ public class ActivityMeter : MonoBehaviour
     [SerializeField] private int newIndex = 5;
 
     private AudioSource audioSource;
-
+    private bool isHeadOut = false;
 
     private void Awake()
     {
@@ -40,6 +40,7 @@ public class ActivityMeter : MonoBehaviour
     {
         audioSource.pitch = 0.5f + ((rotationAngle + 55) / 110);
 
+
         if (rotationAngle > 45)
         {
             //Debug.Log("Red Alert");
@@ -49,10 +50,7 @@ public class ActivityMeter : MonoBehaviour
         } else if(rotationAngle <= 25)
         {
             //Debug.Log("Normal");
-        }
-
-        Debug.Log(rotationAngle);
-        
+        }        
     }
 
     public void ChangeActivityMeter(float intensity)
@@ -62,9 +60,23 @@ public class ActivityMeter : MonoBehaviour
             Debug.Log("DEATH");
             GameManager.TheGameManager.GameOver();
         }
-        
-        if (rotationAngle < -55)
+        else if (rotationAngle >= 50 && !isHeadOut)
         {
+            isHeadOut = true;
+            CrateManager.theCrateManager.ShakeTheCrate();
+            GameManager.TheGameManager.NewHeadOut();
+        }
+        else if (rotationAngle >= 0)
+        {
+            CrateManager.theCrateManager.OpenAndCloseCrate(true);
+        }
+        else if (rotationAngle < -30)
+        {
+            CrateManager.theCrateManager.OpenAndCloseCrate(true);
+        }
+        else if (rotationAngle < -55)
+        {
+            CrateManager.theCrateManager.StopTheCrate();
             transform.localRotation = Quaternion.Euler(0, -55, 0);
             return;
         }

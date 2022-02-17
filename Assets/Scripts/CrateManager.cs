@@ -24,6 +24,7 @@ public class CrateManager : MonoBehaviour
     private bool isActivityActive = false;
     private float activityTime = 0;
     public static float DangerProbability = 0.1f;
+    public static CrateManager theCrateManager;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class CrateManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         activityTime = Random.Range(activityTimeRange.x, activityTimeRange.y);
         GameManager.OnGameOver += StartOpenComplete;
+        theCrateManager = this;
     }
 
     private void StartOpenComplete()
@@ -44,19 +46,6 @@ public class CrateManager : MonoBehaviour
     void Update()
     {
         GameController();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeTheCrate(ShakeIntensity.Low);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StopTheCrate();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            OpenAndCloseCrate(isOpen);
-        } 
         
     }
 
@@ -67,47 +56,24 @@ public class CrateManager : MonoBehaviour
         {
             isActivityActive = true;
             activityCounter = 0;
-            GameActivityManager();
         }
     }
 
-    private void GameActivityManager()
-    {
-        
-    }
-
-
-    private void ShakeTheCrate(ShakeIntensity shake)
+    public void ShakeTheCrate()
     {
         crateAnimator.SetBool("isShaking", true);
         crateAudioSource.Play();
-
-        switch (shake)
-        {
-            case ShakeIntensity.Low:
-                Debug.Log("Move");
-                crateAnimator.SetTrigger("Move");
-                break;
-            case ShakeIntensity.Medium:
-                break;
-            case ShakeIntensity.Hard:
-                break;
-            case ShakeIntensity.Death:
-                break;
-            default:
-                break;
-        }
-        //The Crate is moving
+        crateAnimator.SetTrigger("Move");
     }
 
 
-    private void StopTheCrate()
+    public void StopTheCrate()
     {
         crateAnimator.SetBool("isShaking", false);
         crateAudioSource.Stop();
     }
 
-    private void OpenAndCloseCrate(bool action)
+    public void OpenAndCloseCrate(bool action)
     {
         isOpen = !isOpen;
         if (action)

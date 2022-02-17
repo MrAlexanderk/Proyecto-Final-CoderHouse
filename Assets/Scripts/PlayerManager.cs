@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private Image blackScreen;
     [SerializeField] private Text blackText;
+    [SerializeField] private Image lightZone;
 
     [SerializeField] private GameObject flashlight;
 
@@ -137,7 +138,11 @@ public class PlayerManager : MonoBehaviour
     }
     private void PlayerInputManager()
     {
-        if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled) flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
+        if (Input.GetKeyDown(controls.Flashlight) && !escMenu.enabled) 
+        { 
+            flashlight.gameObject.SetActive(!flashlight.gameObject.activeInHierarchy);
+            lightZone.enabled = !lightZone.enabled;
+        } 
         
         if (Input.GetKeyDown(KeyCode.Escape) && isAlive) OnGamePauseContinue(escMenu.enabled);
     }

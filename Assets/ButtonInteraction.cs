@@ -23,6 +23,10 @@ public class ButtonInteraction : ObjectInteraction
         PressButton();
     }
 
+    private void Update()
+    {
+        if (isPressed) ActivityMeter.TheActivityMeter.ChangeActivityMeter(Time.deltaTime * 0.5f);
+    }
 
 
     private void PressButton()

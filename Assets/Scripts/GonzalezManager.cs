@@ -87,6 +87,7 @@ public class GonzalezManager : BasicAI
                 animatorController.SetBool("Walking", true);
                 navMeshAgent.speed = enemySpeed;
             }
+            GameManager.TheGameManager.NewHeadOut();
             isCounting = true;
             Debug.Log("Close " + escapeCounter);
             yield break;
