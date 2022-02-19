@@ -24,9 +24,7 @@ public class MannequinHead : ObjectInteraction
 
     private Rigidbody headRigidbody;
 
-
-    private GameObject eyes;
-
+    private float actionCounter = 0;
 
     private bool isOnTheGround = false;
     private float damageCounter = 0;
@@ -37,12 +35,10 @@ public class MannequinHead : ObjectInteraction
         target = FindObjectOfType<PlayerManager>().gameObject;
         information = GetComponentInParent<BoxCollider>().gameObject.GetComponentInChildren<Text>();
 
-        eyes = GetComponentInChildren<MeshRenderer>().gameObject;
-
         volume = Camera.main.GetComponent<PostProcessVolume>();
         volume.profile.TryGetSettings(out bloom);
         volume.profile.TryGetSettings(out aberration);
-
+        ChangeChestText();
     }
 
 
@@ -52,9 +48,7 @@ public class MannequinHead : ObjectInteraction
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            
             ChangeChestText();
-
         }
        
     }
@@ -67,24 +61,32 @@ public class MannequinHead : ObjectInteraction
 
     private void OnMouseOver()
     {
-        if(damageCounter < maxNoDamageTime)
+
+        if (CheckPlayerInteractionDistance() && isOnTheGround && actionHand.enabled == false)
         {
-            damageCounter += 1 * Time.deltaTime;
+            // && action.enabled == false 
+            Debug.Log("Hand");
+            actionHand.enabled = true;
+        }
+        else if (!CheckPlayerInteractionDistance() && actionHand.enabled == true)
+        {
+            Debug.Log("No Hand");
+            actionHand.enabled = false;
+        }
+
+
+        if (damageCounter < maxNoDamageTime)
+        {
+            damageCounter += Time.deltaTime;
             return;
         }
+
 
         ActivityMeter.TheActivityMeter.ChangeActivityMeter(0.1f);
         Gramophone.CountDownMultiplier += 1.2f * Time.deltaTime;
         aberrationAndBloom();
 
-        if (CheckPlayerInteractionDistance() && action.enabled == false && isOnTheGround)
-        {
-           actionHand.enabled = true;
-        }
-        else if (!CheckPlayerInteractionDistance() && action.enabled == true)
-        {
-            actionHand.enabled = false;
-        }
+
 
     }
 
@@ -102,6 +104,13 @@ public class MannequinHead : ObjectInteraction
     {
         if(bloom.intensity.value < 40) bloom.intensity.value += 2f * Time.deltaTime;
         if(aberration.intensity.value < 1) aberration.intensity.value += Time.deltaTime;
+
+        actionCounter += Time.deltaTime;
+        if(actionCounter >= 1)
+        {
+            actionCounter = 0;
+            ChangeChestText();
+        }
     }
 
 

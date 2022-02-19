@@ -66,7 +66,6 @@ public class PlayerManager : MonoBehaviour
         playerAudio = GetComponent<AudioSource>();
         ThePlayer = this;
         GameManager.OnGameOver += OnGameOverHandler;
-        GameManager.OnGameReset += OnGameResetHandler;
     }
 
     private void OnGamePauseContinue(bool isPaused)
@@ -168,10 +167,6 @@ public class PlayerManager : MonoBehaviour
         playerAudio.PlayOneShot(tenseMusic);
     }
 
-    private void OnGameResetHandler()
-    {
-        isAlive = true;
-    }
 
 }
 

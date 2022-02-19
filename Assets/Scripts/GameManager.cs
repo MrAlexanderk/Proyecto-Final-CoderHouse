@@ -29,12 +29,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager TheGameManager;
     public static event UnityAction OnGameOver;
-    public static event UnityAction OnGameReset;
 
     private void Awake()
     {
         TheGameManager = this;
-        OnGameReset += OnGameResetHandler;
         allTheExistingHeads = FindObjectsOfType<MannequinHead>();
 
         attackTimeCount = Random.Range(configuration.AttackTimeCountRange.x, configuration.AttackTimeCountRange.y);
@@ -48,7 +46,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            allTheExistingHeads[headsFoundIndex].OnHeadDown();
+            //allTheExistingHeads[headsFoundIndex].OnHeadDown();
+            NewHeadOut();
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -61,10 +60,17 @@ public class GameManager : MonoBehaviour
 
     public void NewHeadOut()
     {
+        informationText.text = $"One head down. Press Left Click to pick it up.";
+        StartCoroutine(ClearTheText(informationText, 3));
         allTheExistingHeads[headsFoundIndex].OnHeadDown();
-        informationText.text = $"One head down. Press {KeyCode.Mouse0} to pick it up.";
+        
     }
 
+    private IEnumerator ClearTheText(Text currentText, float waitingTime)
+    {
+        yield return new WaitForSeconds(waitingTime);
+        currentText.text = "";
+    }
 
     public void TakeAHead()
     {
@@ -105,9 +111,7 @@ public class GameManager : MonoBehaviour
         {
             light.enabled = false;
         }
-
         lightSystem.GetComponent<LightManager>().enabled = true;
-
         StartCoroutine(DeathTimerMenu());
     }
 
@@ -118,15 +122,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-    public void GameReset()
-    {
-        OnGameReset?.Invoke();
-    }
-
     private void CheckHeadsCounts(int headsCount)
     {
-
         if (headsCount >= 4) GameWinningStage();
     }
 
@@ -152,14 +149,12 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < finalText.Length; i++)
         {
             centralTextInformation.text += finalText[i];
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
-
 
         yield return new WaitForSeconds(3);
         centralTextInformation.enabled = false;
         GameOver();
-        
     }
 
 
@@ -170,6 +165,5 @@ public class GameManager : MonoBehaviour
             head.GetComponent<MeshRenderer>().enabled = false;
         }
     }
-   
 
 }

@@ -19,10 +19,22 @@ MonoBehaviour:
   - {fileID: 8400000, guid: 5e952da47c0f57a4aa42f9cc56facbc7, type: 2}
   CompleteMannequinTexts:
   - Run
-  - Hide
   - Someone is coming
   - I see you
   - Where are you?
   - Kill me
   - Not found
   - Dead
+  - Don't take them away
+  - Please, stop
+  - No
+  - I hate you
+  - Why do you hate me?
+  - What did I do to you?
+  - Is she there?
+  - LISTEN TO ME
+  - Nononononononono
+  - Goodbye
+  - I will kill you
+  - The heads, don't take the heads
+  - It's a trap

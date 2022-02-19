@@ -30,7 +30,6 @@ public class MainMenu : MonoBehaviour
 
         ResetAllKeys();
 
-        GameManager.OnGameReset += ResetGame; 
 
         keyInformation[0].text = keys["MoveForward"].ToString();
         keyInformation[1].text = keys["MoveBack"].ToString();

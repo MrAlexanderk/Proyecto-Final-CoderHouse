@@ -48,8 +48,7 @@ public class ActivityMeter : MonoBehaviour
             GameManager.TheGameManager.GameOver();
         }
         else if (rotationAngle >= 50 && !isHeadOut)
-        {
-            
+        {   
             CrateManager.theCrateManager.ShakeTheCrate();
             if(!isHeadOut) GameManager.TheGameManager.NewHeadOut();
             isHeadOut = true;
@@ -60,6 +59,7 @@ public class ActivityMeter : MonoBehaviour
         }
         else if (rotationAngle < -30)
         {
+            isHeadOut = false;
             CrateManager.theCrateManager.OpenAndCloseCrate(true);
         }
         else if (rotationAngle < -55)

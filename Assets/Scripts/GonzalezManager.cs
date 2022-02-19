@@ -70,8 +70,7 @@ public class GonzalezManager : BasicAI
     }
 
     private IEnumerator GonzalezOnTheSpot()
-    {   //Este método regula lo que ocurre cuando Gonzalez se encuentra oculta detrás de una puerta.
-        //Debug.Log("Stopped");
+    {   
         isCounting = false;
 
         if((destinationIndex == 3 && completeGateCollection[0].isOpen) || (destinationIndex == 5 && completeGateCollection[1].isOpen) || (destinationIndex == 7 && completeGateCollection[2].isOpen))
@@ -86,10 +85,13 @@ public class GonzalezManager : BasicAI
                 SetDestinationPoints();
                 animatorController.SetBool("Walking", true);
                 navMeshAgent.speed = enemySpeed;
+
+                GameManager.TheGameManager.NewHeadOut();
+                isCounting = true;
+
+
             }
-            GameManager.TheGameManager.NewHeadOut();
-            isCounting = true;
-            Debug.Log("Close " + escapeCounter);
+            
             yield break;
         }
 
