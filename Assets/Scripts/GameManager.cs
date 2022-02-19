@@ -9,38 +9,25 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game Manager Configuration")]
     [SerializeField] private GameSettings configuration;
-
     
     [SerializeField] private Transform leftSpawnAreaCorner;
     [SerializeField] private Transform rightSpawnAreaCorner;
-
 
     [SerializeField] public GameObject[] completePhasePoints;
     [SerializeField] private GameObject parentReference;
     [SerializeField] private Light lightSystem;
 
-
-
     [SerializeField] private GameObject[] allTheCurrentHeads;
-
     [SerializeField] private Image[] allHeadsCollected;
-
-
-
-
-
-
+    [SerializeField] private Text informationText;
+    [SerializeField] private Text centralTextInformation;
 
     private float timerCounter;
     private float attackTimeCount;
-
     private MannequinHead[] allTheExistingHeads;
-
     private int headsFoundIndex = 0;
 
-
     public static GameManager TheGameManager;
-
     public static event UnityAction OnGameOver;
     public static event UnityAction OnGameReset;
 
@@ -63,6 +50,11 @@ public class GameManager : MonoBehaviour
         {
             allTheExistingHeads[headsFoundIndex].OnHeadDown();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GameWinningStage();
+        }
     }
 
 
@@ -70,7 +62,7 @@ public class GameManager : MonoBehaviour
     public void NewHeadOut()
     {
         allTheExistingHeads[headsFoundIndex].OnHeadDown();
-        //Una cabeza ha caído. Acércate a ella y pulsa {KeyCode.Mouse0} para asegurarla.
+        informationText.text = $"One head down. Press {KeyCode.Mouse0} to pick it up.";
     }
 
 
@@ -119,7 +111,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DeathTimerMenu());
     }
 
-
     private IEnumerator DeathTimerMenu()
     {
         yield return new WaitForSeconds(10);
@@ -143,6 +134,32 @@ public class GameManager : MonoBehaviour
     {
         //El jugador ha ganado.
         Debug.Log("GANADOR");
+        PlayerManager.ThePlayer.isActive = false;
+
+        foreach(Light lights in FindObjectsOfType<Light>())
+        {
+            lights.enabled = false;
+        }
+
+        
+        StartCoroutine(FinalTextAppear());
+    }
+
+    private IEnumerator FinalTextAppear()
+    {
+        string finalText = "Sometimes, you just die. Even when you win.";
+
+        for(int i = 0; i < finalText.Length; i++)
+        {
+            centralTextInformation.text += finalText[i];
+            yield return new WaitForSeconds(0.1f);
+        }
+
+
+        yield return new WaitForSeconds(3);
+        centralTextInformation.enabled = false;
+        GameOver();
+        
     }
 
 

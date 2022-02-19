@@ -6,7 +6,6 @@ public class ActivityMeter : MonoBehaviour
 {
     public static ActivityMeter TheActivityMeter;
 
-
     private float rotationAngle = -55;
     [SerializeField] private int newIndex = 5;
 
@@ -38,19 +37,7 @@ public class ActivityMeter : MonoBehaviour
 
     private void ActivityManager()
     {
-        audioSource.pitch = 0.5f + ((rotationAngle + 55) / 110);
-
-
-        if (rotationAngle > 45)
-        {
-            //Debug.Log("Red Alert");
-        } else if(rotationAngle > 25)
-        {
-            //Debug.Log("Yellow Alert");
-        } else if(rotationAngle <= 25)
-        {
-            //Debug.Log("Normal");
-        }        
+        audioSource.pitch = 0.5f + ((rotationAngle + 55) / 110);     
     }
 
     public void ChangeActivityMeter(float intensity)
@@ -62,9 +49,10 @@ public class ActivityMeter : MonoBehaviour
         }
         else if (rotationAngle >= 50 && !isHeadOut)
         {
-            isHeadOut = true;
+            
             CrateManager.theCrateManager.ShakeTheCrate();
-            GameManager.TheGameManager.NewHeadOut();
+            if(!isHeadOut) GameManager.TheGameManager.NewHeadOut();
+            isHeadOut = true;
         }
         else if (rotationAngle >= 0)
         {
