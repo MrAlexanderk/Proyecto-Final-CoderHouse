@@ -16,11 +16,8 @@ public class CrateManager : MonoBehaviour
     private GameObject crateDoor;
     private AudioSource audioSource;
 
-
-
     //Contador del crate
     private float activityCounter = 0;
-    private float activityProbability = 0.2f;
     private bool isActivityActive = false;
     private float activityTime = 0;
     public static float DangerProbability = 0.1f;
@@ -28,6 +25,7 @@ public class CrateManager : MonoBehaviour
 
     private void Awake()
     {
+
         crateAnimator = GetComponent<Animator>();
         crateAudioSource = GetComponent<AudioSource>();
         crateDoor = GetComponentInChildren<SphereCollider>().gameObject;
@@ -35,6 +33,7 @@ public class CrateManager : MonoBehaviour
         activityTime = Random.Range(activityTimeRange.x, activityTimeRange.y);
         GameManager.OnGameOver += StartOpenComplete;
         theCrateManager = this;
+
     }
 
     private void StartOpenComplete()
@@ -112,6 +111,7 @@ public class CrateManager : MonoBehaviour
             index -= 0.5f;
             yield return new WaitForSeconds(interactionTime / 100);
         }
+        GameManager.TheGameManager.NewHeadOut();
         isActive = true;
         yield return new WaitForSeconds(interactionTime / 100);
     }

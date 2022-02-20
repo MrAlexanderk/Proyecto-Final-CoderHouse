@@ -13,9 +13,7 @@ public class MannequinHead : ObjectInteraction
     [SerializeField] private float timeBetweenJumping = 3;
     [SerializeField] private Image actionHand;
 
-    private GameObject parentObject;
     private GameObject target;
-    private Transform lookTarget;
     private Text information;
     private float counter = 0;
     private PostProcessVolume volume;
@@ -26,7 +24,7 @@ public class MannequinHead : ObjectInteraction
 
     private float actionCounter = 0;
 
-    private bool isOnTheGround = false;
+    public bool isOnTheGround = false;
     private float damageCounter = 0;
 
     void Start()

@@ -5,10 +5,10 @@ using UnityEngine;
 public class GonzalezManager : BasicAI
 {
     [SerializeField] private float enemySpeed = 3.5f;
-    [SerializeField, Range(0, 100)] private int enemyAttackProbability = 100; //Probabilidad de que el enemigo se mueva o deje de moverse al ocurrir un timer.
+    [SerializeField, Range(0, 100)] private int enemyAttackProbability = 100;  //Probabilidad de que el enemigo se mueva o deje de moverse al ocurrir un timer.
     [SerializeField] private float attackTimeMoment = 10;
-    [SerializeField] private Vector2 timeRange = new Vector2(10, 20);   //Valor entre los cuales puede ocurrir el evento de mover/no mover
-    [SerializeField] private Vector2 waitTimeRange = new Vector2(10, 20); //Valor entre los cuales Gonzalez esperará antes de abrir la puerta y continuar.
+    [SerializeField] private Vector2 timeRange = new Vector2(10, 20);          //Valor entre los cuales puede ocurrir el evento de mover/no mover
+    [SerializeField] private Vector2 waitTimeRange = new Vector2(10, 20);      //Valor entre los cuales Gonzalez esperará antes de abrir la puerta y continuar.
     [SerializeField] private GateManager[] completeGateCollection;
     [SerializeField] private float maxWaitingTime = 5;
 
@@ -107,15 +107,9 @@ public class GonzalezManager : BasicAI
         SetDestinationPoints();
         SetTheMovement(false);
         int waitTimeIndex = (int) Random.Range(waitTimeRange.x, waitTimeRange.y);
-        //Debug.Log(waitTimeIndex);
         yield return new WaitForSeconds(waitTimeIndex);
         isCounting = true;
-        //Debug.Log("Continue");
     }
-
-
-
-
 
     private void SetTheMovement(bool setAction)
     {

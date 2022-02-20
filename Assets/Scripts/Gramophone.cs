@@ -34,7 +34,6 @@ public class Gramophone : ObjectInteraction
 
     #endregion
 
-
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -54,10 +53,7 @@ public class Gramophone : ObjectInteraction
     void Update()
     {
         if(isCountingDown && isPlaying) { CrankCountDown(); }
-
-
-
-        info.text = ((int) crankCountDown).ToString(); //JUST EDITOR
+        //info.text = ((int) crankCountDown).ToString(); //JUST EDITOR
     }
 
     private void CrankCountDown()

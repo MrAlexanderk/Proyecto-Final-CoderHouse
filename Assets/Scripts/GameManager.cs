@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text informationText;
     [SerializeField] private Text centralTextInformation;
 
-    private float timerCounter;
-    private float attackTimeCount;
     private MannequinHead[] allTheExistingHeads;
     private int headsFoundIndex = 0;
 
@@ -35,7 +33,6 @@ public class GameManager : MonoBehaviour
         TheGameManager = this;
         allTheExistingHeads = FindObjectsOfType<MannequinHead>();
 
-        attackTimeCount = Random.Range(configuration.AttackTimeCountRange.x, configuration.AttackTimeCountRange.y);
         foreach (var head in allTheCurrentHeads)
         {
             head.GetComponent<MeshRenderer>().enabled = false;
@@ -46,7 +43,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            //allTheExistingHeads[headsFoundIndex].OnHeadDown();
             NewHeadOut();
         }
 
@@ -62,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         informationText.text = $"One head down. Press Left Click to pick it up.";
         StartCoroutine(ClearTheText(informationText, 3));
+        if(allTheExistingHeads[headsFoundIndex].isOnTheGround && headsFoundIndex != 3) allTheExistingHeads[headsFoundIndex + 1].OnHeadDown();
         allTheExistingHeads[headsFoundIndex].OnHeadDown();
         
     }
@@ -88,21 +85,6 @@ public class GameManager : MonoBehaviour
         headsFoundIndex++;
         CheckHeadsCounts(headsFoundIndex);
     }
-
-
-    private void StartAttackSystem()
-    {   
-        float randomX = Random.Range(leftSpawnAreaCorner.transform.position.x, rightSpawnAreaCorner.transform.position.x);
-        float randomY = this.transform.position.y;
-        float randomZ = Random.Range(leftSpawnAreaCorner.transform.position.z, rightSpawnAreaCorner.transform.position.z);
-        Vector3 spawnPosition = new Vector3(randomX, randomY, randomZ);
-
-        GonzalezManager gonzalez = Instantiate<GonzalezManager>(configuration.GonzalezPrefab);
-        gonzalez.transform.position = spawnPosition;
-        gonzalez.transform.SetParent(parentReference.transform);
-
-    }
-
 
     public void GameOver()
     {
@@ -144,7 +126,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinalTextAppear()
     {
-        string finalText = "Sometimes, you just die. Even when you win.";
+        string finalText = "Sometimes, you just die. \n Even when you win." ;
 
         for(int i = 0; i < finalText.Length; i++)
         {
@@ -155,15 +137,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         centralTextInformation.enabled = false;
         GameOver();
-    }
-
-
-    private void OnGameResetHandler()
-    {
-        foreach(var head in allTheCurrentHeads)
-        {
-            head.GetComponent<MeshRenderer>().enabled = false;
-        }
     }
 
 }

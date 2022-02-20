@@ -16,14 +16,12 @@ public class CandleSystem : ObjectInteraction
     private Light thisCandleLight;
 
     private static bool isACandleOn = false;
+    private static int candlesUsed = 0;
     private void Awake()
     {
         thisLight = GetComponentInChildren<CandleComponent>().gameObject;
         thisLight.SetActive(false);
     }
-
-
-
 
     private void OnMouseDown()
     {
@@ -43,10 +41,15 @@ public class CandleSystem : ObjectInteraction
         yield return new WaitForSeconds(10);
         ActivityMeter.TheActivityMeter.ChangeActivityMeter(-useIntensity);
         isACandleOn = false;
+        candlesUsed++;
+        if(candlesUsed == 2)
+        {
+            GameManager.TheGameManager.NewHeadOut();
+        }
 
         GetComponentInChildren<SphereCollider>().gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
         Destroy(thisLight.gameObject);
-        Destroy(this.GetComponent<MeshRenderer>());
+        Destroy(GetComponent<MeshRenderer>());
     }
 
 
