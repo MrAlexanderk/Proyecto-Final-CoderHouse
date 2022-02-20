@@ -41,15 +41,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            NewHeadOut();
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    NewHeadOut();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GameWinningStage();
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    GameWinningStage();
+        //}
     }
 
 

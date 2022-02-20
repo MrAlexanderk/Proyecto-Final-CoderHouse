@@ -15,10 +15,10 @@ public class GateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            OpenAndCloseTheGate();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha9))
+        //{
+        //    OpenAndCloseTheGate();
+        //}
     }
 
     public void OpenAndCloseTheGate()

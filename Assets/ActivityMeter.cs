@@ -20,10 +20,10 @@ public class ActivityMeter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            ChangeActivityMeter(newIndex);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha0))
+        //{
+        //    ChangeActivityMeter(newIndex);
+        //}
 
         ActivityManager();   
     }

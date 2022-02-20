@@ -44,10 +44,10 @@ public class MannequinHead : ObjectInteraction
     {    
         transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ChangeChestText();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    ChangeChestText();
+        //}
        
     }
 
